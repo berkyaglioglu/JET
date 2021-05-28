@@ -1,6 +1,15 @@
 version: '3'
 services:
-  
+  # The website
+  website:
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    ports:
+      - "6061:80"
+    depends_on:
+      - app
+
   # The app
   app:
     build:
