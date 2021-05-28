@@ -1,0 +1,30 @@
+version: '3'
+services:
+  
+  # The app
+  app:
+    build:
+      context: ./CookieAPI
+      dockerfile: Dockerfile
+    ports:
+      - "6062:80"
+    depends_on:
+      - database
+
+  # The Database
+  database:
+    image: mariadb:10.4
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./db:/db # shared DB folder
+      - ./db/init.sh:/docker-entrypoint-initdb.d/init.sh
+    environment:
+      - "MYSQL_DATABASE=cookies_db"
+      - "MYSQL_USER=cookie_monster"
+      - "MYSQL_PASSWORD=ng9N3yhBunAUkjBPmaNwGMak"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+      - "3307:3306"
+
+volumes:
+  dbdata:
